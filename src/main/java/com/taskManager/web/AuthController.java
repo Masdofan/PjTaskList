@@ -25,10 +25,10 @@ public class AuthController {
         return modelAndView;
     }
 
-    @PostMapping("/signin")
-    public ModelAndView signIn(@ModelAttribute(name = "signIn") UserDto userDto, BindingResult bindingResult) {
+    @PostMapping("/signIn")
+    public String signIn(@ModelAttribute(name = "signIn") UserDto userDto, BindingResult bindingResult) {
         service.save(userDto);
-        return auth();
+        return "redirect:/authorization";
     }
 
 }

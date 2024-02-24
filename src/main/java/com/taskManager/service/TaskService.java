@@ -11,4 +11,6 @@ public interface TaskService {
 
     List<TaskEntity> getTasks();
 
+    TaskEntity getTaskById(Integer id);
+
 }

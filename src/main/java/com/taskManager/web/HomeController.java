@@ -1,6 +1,7 @@
 package com.taskManager.web;
 
 import com.taskManager.dto.TaskDto;
+import com.taskManager.model.TaskEntity;
 import com.taskManager.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,10 +27,17 @@ public class HomeController {
         return modelAndView;
     }
 
+    @GetMapping("/taskPage")
+    public ModelAndView task(@ModelAttribute(name = "task") TaskEntity entity, Integer taskId) {
+        ModelAndView modelAndView = new ModelAndView("taskPage");
+        modelAndView.addObject("currTask", taskService.getTaskById(taskId));
+        return modelAndView;
+    }
+
     @PostMapping("/save")
-    public ModelAndView save(@ModelAttribute(name = "task") TaskDto task, BindingResult result) {
+    public String save(@ModelAttribute(name = "task") TaskDto task, BindingResult result) {
         taskService.save(task);
-        return home();
+        return "redirect:/homepage";
     }
 
 }

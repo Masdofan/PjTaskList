@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Task</title>
+</head>
+<body>
+<div th:insert="~{fragments/header :: header}"></div><br>
+
+<div class="container">
+    <div class="row row-cols-3 gx-5">
+        <div class="col">
+            <div class="card">
+                <h5 class="card-header bg-secondary">Name</h5>
+                <div class="card-body bg-secondary-emphasis">
+                    <p class="card-text" th:text="@{}"
+                </div>
+            </div><br>
+            <div class="card">
+                <h5 class="card-header bg-secondary">Summary</h5>
+                <div class="card-body bg-secondary-emphasis">
+                </div>
+            </div><br>
+            <div class="card">
+                <h5 class="card-header bg-secondary">Description</h5>
+                <div class="card-body bg-secondary-emphasis">
+                </div>
+            </div><br>
+        </div>
+        <div class="col">
+            <div class="card">
+                <h5 class="card-header bg-secondary">Expiration time</h5>
+                <div class="card-body bg-secondary-emphasis">
+
+                </div>
+            </div><br>
+            <div class="card">
+                <h5 class="card-header bg-secondary">Executor</h5>
+                <div class="card-body bg-secondary-emphasis">
+                </div>
+            </div><br>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

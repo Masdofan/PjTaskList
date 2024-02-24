@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class TaskDto {
 
-    private String Name;
+    private String name;
 
     private String summary;
 

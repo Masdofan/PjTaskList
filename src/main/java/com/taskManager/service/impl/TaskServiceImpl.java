@@ -7,11 +7,12 @@ import com.taskManager.repository.TaskRepository;
 import com.taskManager.service.TaskService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Comment;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
-@Component
+@Service
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository repository;
@@ -23,5 +24,10 @@ public class TaskServiceImpl implements TaskService {
         var entity = mapper.toEntity(dto);
 
         repository.save(entity);
+    }
+
+    @Override
+    public List<TaskEntity> getTasks() {
+        return repository.findAll();
     }
 }

@@ -20,7 +20,7 @@ public class TaskEntity {
     @Id
     private Integer id;
 
-    private String Name;
+    private String name;
 
     private String summary;
 

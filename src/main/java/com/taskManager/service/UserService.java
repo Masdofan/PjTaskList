@@ -1,12 +1,17 @@
 package com.taskManager.service;
 
 import com.taskManager.dto.UserDto;
+import com.taskManager.model.UserEntity;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.List;
 
 public interface UserService {
 
     void save(UserDto userDto);
 
-//    public UserDetails loadUserByUsername(String username);
+    UserDetails loadUserByUsername(String username);
+
+    List<UserEntity> getUsers();
 
 }

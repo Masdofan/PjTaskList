@@ -1,10 +1,7 @@
 package com.taskManager.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,6 +19,7 @@ public class UserEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(unique = true)
     private String username;
 
     private String firstName;
@@ -30,6 +28,7 @@ public class UserEntity implements UserDetails {
 
     private String password;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "executor")
     private List<TaskEntity> tasks;
 

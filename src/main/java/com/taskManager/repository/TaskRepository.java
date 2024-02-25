@@ -12,4 +12,6 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Integer> {
 
     Optional<TaskEntity> findById(Integer id);
 
+    List<TaskEntity> findAllByExecutor_Id(Integer id);
+
 }

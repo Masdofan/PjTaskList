@@ -29,4 +29,6 @@ public class TaskEntity {
     @ManyToOne
     private UserEntity executor;
 
+
+
 }

@@ -3,6 +3,7 @@ package com.taskManager.web;
 import com.taskManager.dto.TaskDto;
 import com.taskManager.model.TaskEntity;
 import com.taskManager.service.TaskService;
+import com.taskManager.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -19,18 +20,14 @@ public class HomeController {
 
     private final TaskService taskService;
 
+    private final UserService userService;
+
     @GetMapping
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView("main");
         modelAndView.addObject("task", new TaskDto());
         modelAndView.addObject("tasks", taskService.getTasks());
-        return modelAndView;
-    }
-
-    @GetMapping("/taskPage")
-    public ModelAndView task(@ModelAttribute(name = "task") TaskEntity entity, Integer taskId) {
-        ModelAndView modelAndView = new ModelAndView("taskPage");
-        modelAndView.addObject("currTask", taskService.getTaskById(taskId));
+        modelAndView.addObject("users", userService.getUsers());
         return modelAndView;
     }
 

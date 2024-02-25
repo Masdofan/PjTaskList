@@ -14,17 +14,19 @@
             <div class="card">
                 <h5 class="card-header bg-secondary">Name</h5>
                 <div class="card-body bg-secondary-emphasis">
-                    <p class="card-text" th:text="@{}"
+                    <p class="card-text" th:text="${task.name}"></p>
                 </div>
             </div><br>
             <div class="card">
                 <h5 class="card-header bg-secondary">Summary</h5>
                 <div class="card-body bg-secondary-emphasis">
+                    <p class="card-text" th:text="${task.summary}"></p>
                 </div>
             </div><br>
             <div class="card">
                 <h5 class="card-header bg-secondary">Description</h5>
                 <div class="card-body bg-secondary-emphasis">
+                    <p class="card-text" th:text="${task.description}"></p>
                 </div>
             </div><br>
         </div>
@@ -32,14 +34,24 @@
             <div class="card">
                 <h5 class="card-header bg-secondary">Expiration time</h5>
                 <div class="card-body bg-secondary-emphasis">
-
+                    <p class="card-text" th:text="${task.expDate}"></p>
                 </div>
             </div><br>
             <div class="card">
                 <h5 class="card-header bg-secondary">Executor</h5>
                 <div class="card-body bg-secondary-emphasis">
+                    <p class="card-text" th:text="${task.executor}"></p>
                 </div>
             </div><br>
+        </div>
+        <div class="col">
+            <div class="row gy-2">
+            <button class="btn btn-success" type="submit">Create subtask</button>
+            <button class="btn btn-secondary" type="submit">Edit Task</button>
+            <button class="btn btn-secondary" type="submit">Duplicate</button>
+            <button class="btn btn-secondary" type="submit">Leave comment</button>
+            <button class="btn btn-danger" type="submit">Delete task</button>
+            </div>
         </div>
     </div>
 </div>

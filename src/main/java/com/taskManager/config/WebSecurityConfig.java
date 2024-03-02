@@ -12,18 +12,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class WebSecurityConfig {
 
-//    @Autowired
-//    private TokenGenerationFilter tokenGenerationFilter;
-//    @Autowired
-//    private TokenValidationFilter tokenValidationFilter;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(cust -> {
             cust
-                    .requestMatchers("/authorization/**").permitAll()
-                    .requestMatchers("/homepage/**", "/taskPage").permitAll();
+                    .requestMatchers("/authorization/**", "/**").permitAll()
+                    .requestMatchers("/homepage/**", "/taskPage/**", "/error").permitAll();
         });
 
         http.formLogin(cust -> {

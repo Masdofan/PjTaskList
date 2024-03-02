@@ -51,11 +51,23 @@
                     </div>
                     <div class="mb-3">
                         <label for="task-description" class="form-label">Task description</label>
-                        <textarea class="form-control" id="task-description" rows="3" th:field="*{description}"></textarea>
+                        <input class="form-control" id="task-description" th:field="*{description}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="taskStatus" class="form-label">Task status</label>
+                        <select class="form-select" id="taskStatus" th:field="*{status}">
+                            <option th:value="${status}" th:each="status : ${T(com.taskManager.model.enums.TaskStatus).values()}" th:text="${status.name()}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="taskType" class="form-label">Task type</label>
+                        <select class="form-select" id="taskType" th:field="*{type}">
+                            <option th:value="${type}" th:text="${type.name()}" th:each="type : ${T(com.taskManager.model.enums.TaskType).values()}"></option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="expirationDate" class="form-label">Expiration date</label>
-                        <input type="date" class="form-control" id="expirationDate" th:field="*{expDate}">
+                        <input class="form-control" id="expirationDate" th:field="*{expDate}" type="date">
                     </div>
                     <div class="mb-3">
                         <label for="executor" class="form-label">Executor</label>

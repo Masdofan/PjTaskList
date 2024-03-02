@@ -4,6 +4,7 @@ import com.taskManager.model.UserEntity;
 import com.taskManager.model.enums.TaskStatus;
 import com.taskManager.model.enums.TaskType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,22 +12,23 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class TaskDto {
+@NoArgsConstructor
+public class TaskUpdateDto {
 
-    private String name;
+    private String upName;
 
-    private String summary;
+    private String upSummary;
 
-    private String description;
+    private String upDescription;
 
-    private LocalDate expDate;
+    private LocalDate upExpDate;
 
-    private TaskStatus status;
+    private TaskStatus upStatus;
 
-    private TaskType type;
+    private TaskType upType;
 
-    private UserEntity executor;
+    private UserEntity upExecutor;
 
 }

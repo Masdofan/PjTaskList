@@ -26,6 +26,7 @@ public class UserEntity implements UserDetails {
 
     private String lastName;
 
+    @ToString.Exclude
     private String password;
 
     @ToString.Exclude

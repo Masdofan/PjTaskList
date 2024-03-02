@@ -1,10 +1,16 @@
 package com.taskManager.model;
 
 
+import com.taskManager.model.enums.TaskStatus;
+import com.taskManager.model.enums.TaskType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Entity(name = "Tasks")
 @Data
@@ -23,11 +29,19 @@ public class TaskEntity {
 
     private String description;
 
-    @Temporal(TemporalType.DATE)
-    private Date expDate;
+    private LocalDate expDate;
+
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private TaskType type;
 
     @ManyToOne
     private UserEntity executor;
+
+    @OneToMany(mappedBy = "task")
+    private List<CommentEntity> comments;
 
 
 

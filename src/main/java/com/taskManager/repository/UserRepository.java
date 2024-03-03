@@ -12,4 +12,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     List<UserEntity> findAll();
 
+    Optional<UserEntity> findById(Integer id);
+
 }

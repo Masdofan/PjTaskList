@@ -6,7 +6,27 @@
     <title>Task</title>
 </head>
 <body>
-<div th:insert="~{fragments/header :: header}"></div><br>
+<div class="container-fluid">
+    <div class="row align-items-start">
+        <div class="col">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand">TL+</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/homepage">Home</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
 
 <div class="container">
     <div class="row row-cols-3 gx-5">
@@ -52,17 +72,17 @@
             <div class="card">
                 <h5 class="card-header bg-secondary">Executor</h5>
                 <div class="card-body bg-secondary-emphasis">
-                    <p class="card-text" th:text="${task.executor.username()}"></p>
+                    <p class="card-text" th:text="${task.executor}"></p>
                 </div>
             </div><br>
         </div>
         <div class="col">
             <div class="row gy-2">
-                <button class="btn btn-success" type="submit">Create subtask</button>
+                <button class="btn btn-success" type="submit" data-bs-toggle="modal" data-bs-target="#create-subtask">Create subtask</button>
                 <button class="btn btn-secondary" type="submit" data-bs-toggle="modal" data-bs-target="#update">Edit Task</button>
-                <button class="btn btn-secondary" type="submit">Duplicate</button>
-                <button class="btn btn-secondary" type="submit">Leave comment</button>
-                <button class="btn btn-danger" type="submit">Delete task</button>
+                <button class="btn btn-secondary" type="submit" data-bs-toggle="modal" data-bs-target="#confirm-duplicate">Duplicate</button>
+                <button class="btn btn-secondary" type="submit" data-bs-toggle="modal" data-bs-target="#leftComment">Leave comment</button>
+                <button class="btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#confirm-delete">Delete task</button>
             </div><br>
             <div class="row gy-2">
                 <div class="card">
@@ -70,7 +90,7 @@
                     <div class="card-body bg-secondary-emphasis">
                         <div class="card" th:each="comm : ${commL}">
                             <div class="card-body">
-                            <h5 class="card-title" th:text=""></h5> //тут будет никнейм автора + надо сделать, чтобы автор сам сетался при добавлении комента, нужно поле для этого сделать
+                            <h5 class="card-title" th:text="${comm.author.username}"></h5>
                             <p class="card-text" th:text="${comm.content}"></p>
                             </div>
                         </div>
@@ -79,11 +99,23 @@
             </div>
         </div>
     </div>
+        <div class="row row-cols-4 gx-2 gy-2">
+            <div th:each="sub : ${subtasks}" class="col">
+                <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${sub.name}"></h5>
+                            <p class="card-text" th:text="${sub.description}"></p>
+                            <p class="card-text" th:text="${sub.status}"></p>
+                        </div>
+                </div>
+            </div>
+        </div>
 </div>
 
-<!--Modal block-->
+<!----------------------------------------------------------------Modal block---------------------------------------------------------------->
 
-<form th:action="@{/update(id = ${task.getId()})}" method="post" th:object="${updateDto}">
+<!--edit modal-->
+<form th:action="@{/taskPage/update(taskId = ${task.getId()})}" method="post" th:object="${updateDto}">
     <div class="modal fade" id="update" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -126,6 +158,104 @@
                             <div th:each="user : ${users}">
                                 <option th:value="${user.getId()}" th:text="${user.username}"></option>
                             </div>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--comment modal-->
+
+<form th:action="@{/taskPage/leftComm(taskId = ${task.getId()}, userId = ${acc.id})}" method="post" th:object="${comment}">
+    <div class="modal fade" id="leftComment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="comment" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="comment">Comment</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="content" class="form-label" th:text="${acc.username}"></label>
+                        <input class="form-control" id="content" th:field="*{content}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--duplicate modal-->
+
+<form th:action="@{/taskPage/duplicate(taskId = ${task.getId()})}" method="post">
+    <div class="modal fade" id="confirm-duplicate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="duplicate" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="duplicate">Confirm duplicate?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">duplicate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--delete modal-->
+
+<form th:action="@{/taskPage/delete(taskId = ${task.getId()})}" method="post">
+    <div class="modal fade" id="confirm-delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="delete">Confirm delete</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!--create subtask modal-->
+
+<form th:action="@{/taskPage/saveSub(taskId = ${task.getId()})}" method="post" th:object="${subtask}">
+    <div class="modal fade" id="create-subtask" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="subtask" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="subtask">Subtask</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input class="form-control" id="name" th:field="*{name}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input class="form-control" id="description" th:field="*{description}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" th:field="*{status}">
+                            <option th:value="${status}" th:each="status : ${T(com.taskManager.model.enums.TaskStatus).values()}" th:text="${status.name()}"></option>
                         </select>
                     </div>
                 </div>

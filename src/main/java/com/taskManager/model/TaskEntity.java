@@ -40,9 +40,12 @@ public class TaskEntity {
     @ManyToOne
     private UserEntity executor;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "task")
     private List<CommentEntity> comments;
 
-
+    @ToString.Exclude
+    @OneToMany(mappedBy = "mainTask")
+    private List<SubtaskEntity> subtasks;
 
 }

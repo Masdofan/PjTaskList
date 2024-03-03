@@ -7,7 +7,66 @@
 </head>
 <body>
 
-<div th:insert="~{fragments/header :: header}"></div><br>
+<div class="container-fluid">
+    <div class="row align-items-start">
+        <div class="col">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand">TL+</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/homepage">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" th:href="@{/homepage(userId = ${acc.id})}">My tasks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">Filter by:</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Status
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li th:each="status : ${T(com.taskManager.model.enums.TaskStatus).values()}">
+                                        <a class="dropdown-item" th:href="@{/homepage(status = ${status.name()})}" th:text="${status.name()}"></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    User
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li th:each="user : ${users}">
+                                        <a class="dropdown-item" th:href="@{/homepage(userId = ${user.getId()})}" th:text="${user.username}"></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Contain text in desc
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" th:href="@{/homepage(isDescEmpty = true)}">Yes</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/homepage(isDescEmpty = false)}">No</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <a class="btn btn-danger" aria-current="page" href="/logout">Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<br>
 <div class="container text-start">
     <div class="row row-cols-4 gx-2 gy-2">
         <div th:each="taskL : ${tasks}" class="col">

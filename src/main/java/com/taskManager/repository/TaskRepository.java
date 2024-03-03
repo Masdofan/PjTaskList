@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +16,13 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Integer> {
 
     Optional<TaskEntity> findById(Integer id);
 
-    List<TaskEntity> findAllByExecutor_Id(Integer id);
+    List<TaskEntity> findAllByExecutor_Id (Integer id);
+
+    List<TaskEntity> findAllByStatus (TaskStatus status);
+
+    List<TaskEntity> findAllByDescriptionEquals(String string);
+
+    List<TaskEntity> findAllByDescriptionNotLike(String string);
 
     @Modifying
     @Query(value = "update Tasks set name = :name where id = :id")
@@ -46,5 +51,7 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Integer> {
     @Modifying
     @Query(value = "update Tasks set executor = :executor where id = :id")
     void updateExecutor(Integer id, UserEntity executor);
+
+    void deleteById(Integer id);
 
 }

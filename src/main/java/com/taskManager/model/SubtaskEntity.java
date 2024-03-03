@@ -1,29 +1,31 @@
 package com.taskManager.model;
 
+import com.taskManager.model.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-@Entity(name = "Comments")
+@Entity(name = "Subtasks")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommentEntity {
+public class SubtaskEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    private UserEntity author;
+    private String name;
 
-    private String content;
+    private String description;
+
+    @Enumerated(value = EnumType.STRING)
+    private TaskStatus status;
 
     @ManyToOne
-    private TaskEntity task;
+    private TaskEntity mainTask;
 
 }

@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.io.IOException;
+
 
 @Configuration
 public class WebSecurityConfig {
@@ -17,8 +19,8 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests(cust -> {
             cust
-                    .requestMatchers("/authorization/**", "/**").permitAll()
-                    .requestMatchers("/homepage/**", "/taskPage/**", "/error").permitAll();
+                    .requestMatchers("/authorization/**").permitAll()
+                    .requestMatchers("/homepage/**", "/taskPage/**", "/error").authenticated();
         });
 
         http.formLogin(cust -> {
@@ -33,13 +35,19 @@ public class WebSecurityConfig {
                 response.sendRedirect("/authorization");
             }));
         });
-//
-//        http.addFilterAfter(tokenGenerationFilter, LogoutFilter.class);
-//        http.addFilterBefore(tokenValidationFilter, SecurityContextHolderFilter.class);
 
         http.logout(cust -> {
             cust.logoutUrl("/logout");
             cust.invalidateHttpSession(true);
+            cust.addLogoutHandler(((request, response, authentication) ->
+            {
+                try {
+                    response.sendRedirect("/authorization");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            ));
         });
 
         http.cors(AbstractHttpConfigurer::disable);

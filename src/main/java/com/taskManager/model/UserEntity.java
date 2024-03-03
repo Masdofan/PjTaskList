@@ -30,8 +30,12 @@ public class UserEntity implements UserDetails {
     private String password;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "executor")
+    @OneToMany(mappedBy = "executor", cascade = CascadeType.ALL)
     private List<TaskEntity> tasks;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<CommentEntity> comments;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

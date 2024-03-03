@@ -14,4 +14,6 @@ public interface UserService {
 
     List<UserEntity> getUsers();
 
+    UserEntity getById(Integer id);
+
 }

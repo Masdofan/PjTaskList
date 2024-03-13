@@ -23,6 +23,9 @@ public class TaskEntity {
     @Id
     private Integer id;
 
+    @ManyToOne
+    private TaskEntity parentTask;
+
     private String name;
 
     private String summary;
@@ -45,7 +48,7 @@ public class TaskEntity {
     private List<CommentEntity> comments;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "mainTask")
-    private List<SubtaskEntity> subtasks;
+    @OneToMany(mappedBy = "parentTask")
+    private List<TaskEntity> subtasks;
 
 }

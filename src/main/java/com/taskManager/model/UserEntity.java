@@ -2,6 +2,7 @@ package com.taskManager.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,6 +18,7 @@ public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ToString.Exclude
     private Integer id;
 
     @Column(unique = true)
@@ -35,6 +37,7 @@ public class UserEntity implements UserDetails {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @Cascade(value = org.hibernate.annotations.CascadeType.DELETE)
     private List<CommentEntity> comments;
 
     @Override

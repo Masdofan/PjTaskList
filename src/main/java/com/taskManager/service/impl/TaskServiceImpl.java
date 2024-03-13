@@ -1,14 +1,10 @@
 package com.taskManager.service.impl;
 
-import com.taskManager.dto.SubtaskDto;
 import com.taskManager.dto.TaskDto;
 import com.taskManager.dto.TaskUpdateDto;
-import com.taskManager.mapper.SubtaskMapper;
 import com.taskManager.mapper.TaskMapper;
-import com.taskManager.model.SubtaskEntity;
 import com.taskManager.model.TaskEntity;
 import com.taskManager.model.enums.TaskStatus;
-import com.taskManager.repository.SubtaskRepository;
 import com.taskManager.repository.TaskRepository;
 import com.taskManager.service.TaskService;
 import jakarta.transaction.Transactional;
@@ -24,8 +20,6 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper mapper;
-    private final SubtaskMapper subtaskMapper;
-    private final SubtaskRepository subtaskRepository;
 
     @Override
     @Transactional
@@ -44,7 +38,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskEntity> getTasks() {
-        return taskRepository.findAll();
+        return taskRepository.findTaskEntitiesByParentTaskIsNull();
     }
 
     @Override
@@ -74,6 +68,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<TaskEntity> getTasksByParentId(Integer id) {
+        return taskRepository.findAllByParentTaskId(id);
+    }
+
+    @Override
     @Transactional
     public void update(Integer id, TaskUpdateDto updateDto) {
         taskRepository.updateName(id, updateDto.getUpName());
@@ -89,17 +88,6 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteById(Integer id) {
         taskRepository.deleteById(id);
-    }
-
-    @Override
-    public void saveSub(SubtaskDto dto) {
-        SubtaskEntity entity = subtaskMapper.toEntity(dto);
-        subtaskRepository.save(entity);
-    }
-
-    @Override
-    public List<SubtaskEntity> getSubsByMainId(Integer id) {
-        return subtaskRepository.findAllByMainTaskId(id);
     }
 
 }

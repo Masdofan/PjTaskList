@@ -1,5 +1,6 @@
 package com.taskManager.dto;
 
+import com.taskManager.model.TaskEntity;
 import com.taskManager.model.UserEntity;
 import com.taskManager.model.enums.TaskStatus;
 import com.taskManager.model.enums.TaskType;
@@ -14,6 +15,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskDto {
+
+    private TaskEntity parentTask;
 
     private String name;
 

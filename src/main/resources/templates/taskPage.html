@@ -49,6 +49,14 @@
                     <p class="card-text" th:text="${task.description}"></p>
                 </div>
             </div><br>
+            <div class="card" th:if="${task.parentTask != null}">
+                <h5 class="card-header bg-secondary">Parent</h5>
+                <a href="taskPage" th:href="@{/taskPage(taskId=${task.parentTask.id})}" class="btn btn-dark">
+                <div class="card-body bg-secondary-emphasis">
+                    <p class="card-text" th:text="${task.parentTask.name}"></p>
+                </div>
+                </a>
+            </div><br>
         </div>
         <div class="col">
             <div class="card">
@@ -102,11 +110,14 @@
         <div class="row row-cols-4 gx-2 gy-2">
             <div th:each="sub : ${subtasks}" class="col">
                 <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${sub.name}"></h5>
-                            <p class="card-text" th:text="${sub.description}"></p>
-                            <p class="card-text" th:text="${sub.status}"></p>
-                        </div>
+                    <div class="card">
+                        <a href="taskPage" th:href="@{/taskPage(taskId=${sub.getId()})}" class="btn btn-secondary" >
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${sub.name}"></h5>
+                                <p class="card-text" th:text="${sub.summary}"></p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,8 +140,8 @@
                         <input type="text" class="form-control" id="task-name" th:field="*{upName}" th:value="${task.getName()}">
                     </div>
                     <div class="mb-3">
-                        <label for="summary" class="form-label">Summary</label>
-                        <input type="text" class="form-control" id="summary" th:field="*{upSummary}" th:value="${task.getSummary()}">
+                        <label for="upSummary" class="form-label">Summary</label>
+                        <input type="text" class="form-control" id="upSummary" th:field="*{upSummary}" th:value="${task.getSummary()}">
                     </div>
                     <div class="mb-3">
                         <label for="task-description" class="form-label">Task description</label>
@@ -240,22 +251,44 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="subtask">Subtask</h1>
+                    <h1 class="modal-title fs-5" id="subtask">Create task</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" >
                     <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input class="form-control" id="name" th:field="*{name}">
+                        <label for="sTask-name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="sTask-name" th:field="*{name}">
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <input class="form-control" id="description" th:field="*{description}">
+                        <label for="summary" class="form-label">Summary</label>
+                        <input type="text" class="form-control" id="summary" th:field="*{summary}">
                     </div>
                     <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-select" id="status" th:field="*{status}">
+                        <label for="sTask-description" class="form-label">Task description</label>
+                        <input class="form-control" id="sTask-description" th:field="*{description}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="sTaskStatus" class="form-label">Task status</label>
+                        <select class="form-select" id="sTaskStatus" th:field="*{status}">
                             <option th:value="${status}" th:each="status : ${T(com.taskManager.model.enums.TaskStatus).values()}" th:text="${status.name()}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="staskType" class="form-label">Task type</label>
+                        <select class="form-select" id="staskType" th:field="*{type}">
+                            <option th:value="${type}" th:text="${type.name()}" th:each="type : ${T(com.taskManager.model.enums.TaskType).values()}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sExpirationDate" class="form-label">Expiration date</label>
+                        <input class="form-control" id="sExpirationDate" th:field="*{expDate}" type="date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="sExecutor" class="form-label">Executor</label>
+                        <select class="form-select" id="sExecutor" th:field="*{executor}">
+                            <div th:each="user : ${users}">
+                                <option th:value="${user.getId()}" th:text="${user.username}"></option>
+                            </div>
                         </select>
                     </div>
                 </div>

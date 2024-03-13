@@ -1,6 +1,6 @@
 package com.taskManager.web;
 
-import com.taskManager.dto.SubtaskDto;
+import com.taskManager.dto.TaskDto;
 import com.taskManager.dto.TaskUpdateDto;
 import com.taskManager.model.CommentEntity;
 import com.taskManager.service.CommentService;
@@ -30,8 +30,8 @@ public class TaskController {
         modelAndView.addObject("commL", commentService.getCommsByTaskId(taskId));
         modelAndView.addObject("acc", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         modelAndView.addObject("comment", new CommentEntity());
-        modelAndView.addObject("subtask", new SubtaskDto());
-        modelAndView.addObject("subtasks", taskService.getSubsByMainId(taskId));
+        modelAndView.addObject("subtask", new TaskDto());
+        modelAndView.addObject("subtasks", taskService.getTasksByParentId(taskId));
         return modelAndView;
     }
 
@@ -56,9 +56,9 @@ public class TaskController {
     }
 
     @PostMapping("/saveSub")
-    public String createSubtask(@ModelAttribute(name = "subtask") SubtaskDto subtaskDto, Integer taskId){
-        subtaskDto.setMainTask(taskService.getTaskById(taskId));
-        taskService.saveSub(subtaskDto);
+    public String createSubtask(@ModelAttribute(name = "subtask") TaskDto subtask, Integer taskId){
+        subtask.setParentTask(taskService.getTaskById(taskId));
+        taskService.save(subtask);
         return "redirect:/homepage";
     }
 

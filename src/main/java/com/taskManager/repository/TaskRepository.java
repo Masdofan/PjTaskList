@@ -4,6 +4,8 @@ import com.taskManager.model.TaskEntity;
 import com.taskManager.model.UserEntity;
 import com.taskManager.model.enums.TaskStatus;
 import com.taskManager.model.enums.TaskType;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +17,10 @@ import java.util.Optional;
 public interface TaskRepository extends JpaRepository<TaskEntity, Integer> {
 
     Optional<TaskEntity> findById(Integer id);
+
+    List<TaskEntity> findAllByParentTaskId(Integer id);
+
+    List<TaskEntity> findTaskEntitiesByParentTaskIsNull();
 
     List<TaskEntity> findAllByExecutor_Id (Integer id);
 
